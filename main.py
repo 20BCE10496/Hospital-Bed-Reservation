@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
+import MySQLdb
 
 app = Flask(__name__)
 
@@ -11,10 +12,13 @@ db = SQLAlchemy(app)
 
 
 @app.route('/')
-def hello_world():
+def home():
     return render_template("index.html")
 
 # testing wheather database is connected or not
+@app.route('/test')
+def test():
+    return render_template("index.html")
 
 
 if __name__=="__main__":
