@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
+import json
 import pymysql
 pymysql.install_as_MySQLdb
 
@@ -18,6 +19,10 @@ class Test(db.Model):
 @app.route('/')
 def home():
     return render_template("index.html")
+
+@app.route('/usersignup')
+def usersignup():
+    return render_template("usersignup.html")
 
 # testing wheather database is connected or not
 @app.route('/test')
