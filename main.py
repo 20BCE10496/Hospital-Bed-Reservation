@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
-import MySQLdb
+import pymysql
+pymysql.install_as_MySQLdb
 
 app = Flask(__name__)
 
