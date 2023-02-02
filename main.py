@@ -1,9 +1,14 @@
 from flask import Flask, render_template, redirect
+from flask_sqlalchemy import SQLAlchemy
+
 app = Flask(__name__)
 
 # database connection
 local_server=True
 app.secret_Key="amishagoyal"
+app.config['SQLALCHEMY_DATABASE_URI']= 'mysql://root:@localhost/covid'
+db = SQLAlchemy(app)
+
 
 @app.route('/')
 def hello_world():
