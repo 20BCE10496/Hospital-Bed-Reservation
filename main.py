@@ -14,5 +14,8 @@ db = SQLAlchemy(app)
 def hello_world():
     return render_template("index.html")
 
+# testing wheather database is connected or not
+
+
 if __name__=="__main__":
     app.run(debug=True)
