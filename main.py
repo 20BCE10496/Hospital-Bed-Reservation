@@ -15,6 +15,15 @@ db = SQLAlchemy(app)
 class Test(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name= db.Column(db.String(50))
+    
+
+class user(db.Model):
+    uid=db.column(db.Integer,primary_key=True)
+    srfid=db.column(db.String(20),unique=True)
+    email=db.column(db.String(20))   
+    dob=db.column(db.String(20)) 
+    
+    
 
 @app.route('/')
 def home():
@@ -27,6 +36,8 @@ def usersignup():
 @app.route('/userlogin')
 def userlogin():
     return render_template("userlogin.html")
+
+
 
 # testing wheather database is connected or not
 @app.route('/test')
