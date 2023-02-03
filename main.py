@@ -13,11 +13,16 @@ app = Flask(__name__)
 local_server=True
 app.secret_Key="amishagoyal"
 
-# this is for getting a unique access to 
+# this is for getting a unique access to user.
 login_manager=LoginManager(app)
+login_manager.login_view='login'
 
 app.config['SQLALCHEMY_DATABASE_URI']= 'mysql://root:@localhost/covid'
 db = SQLAlchemy(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Test(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -25,8 +30,8 @@ class Test(db.Model):
     
 
 class user(db.Model):
-    uid=db.column(db.Integer,primary_key=True)
-    srfid=db.column(db.String(20),unique=True)
+    uid=db.Column(db.Integer,primary_key=True)
+    srfid=db.Column(db.String(20),unique=True)
     email=db.column(db.String(20))   
     dob=db.column(db.String(20)) 
     
