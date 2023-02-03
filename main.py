@@ -1,6 +1,8 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash,check_password_hash
+
 from flask_login import login_required, logout_user, login_user, login_manager,LoginManager, current_user   
 import json
 import pymysql
@@ -48,6 +50,15 @@ def usersignup():
 @app.route('/userlogin')
 def userlogin():
     return render_template("userlogin.html")
+
+@app.route('/signup',methods=['POST','GET'])
+def signup():
+    if request.method=='POST':
+        srfid=request.form.get('srf')
+        dob=request.form.get('dob')
+        email=request.form.get('email')
+        print(srfid,dob,email)
+        return render_template("/usersignup.html")
 
 
 
