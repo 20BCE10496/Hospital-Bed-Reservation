@@ -1,14 +1,21 @@
 from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from flask_login import login_required, logout_user, login_user, login_manager,LoginManager, current_user   
 import json
 import pymysql
 pymysql.install_as_MySQLdb
+
 
 app = Flask(__name__)
 
 # database connection
 local_server=True
 app.secret_Key="amishagoyal"
+
+# this is for getting a unique access to 
+login_manager=LoginManager(app)
+
 app.config['SQLALCHEMY_DATABASE_URI']= 'mysql://root:@localhost/covid'
 db = SQLAlchemy(app)
 
