@@ -100,8 +100,8 @@
 #     app.run(debug=True)
 
 from flask import Flask, json,redirect,render_template,flash,request
-from flask.globals import request, session
-from flask.helpers import url_for
+# from flask.globals import request, session
+# from flask.helpers import url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -154,8 +154,15 @@ class User(UserMixin,db.Model):
 
 @app.route("/")
 def home():
-   
     return render_template("index.html")
+
+@app.route('/usersignup')
+def usersignup():
+    return render_template("usersignup.html")
+
+@app.route('/userlogin')
+def userlogin():
+    return render_template("userlogin.html")
 
 
 
@@ -181,9 +188,11 @@ def login():
         user=User.query.filter_by(srfid=srfid).first()
         if user and check_password_hash(user.dob,dob):
             login_user(user)
-            return 'success'
+            flash("Login successful","info")
+            return render_template("index.html")
         else:
-            return 'fail'           
+            flash("Invalid credentails","danger")
+            return render_template("userlogin.html")          
         
 
 
