@@ -60,8 +60,26 @@ def signup():
         # print(srfid,dob,email)
         encpassword=generate_password_hash(dob)
         new_user=db.engine.execute(f"INSERT INTO `user` (`srfid`,`email`,`dob`) VALUES ('{srfid}','{email}','{encpassword}') ")
+        return 'USER ADDED'
 
-        return render_template("/usersignup.html")
+    return render_template("/usersignup.html")
+
+@app.route('/login',methods=['POST','GET'])
+def login():
+    if request.method=="POST":
+        srfid=request.form.get('srf')
+        dob=request.form.get('dob')
+        user=User.query.filter_by(srfid=srfid).first()
+        if user and check_password_hash(user.dob,dob):
+            login_user(user)
+            flash("Login Success","info")
+            return render_template("index.html")
+        else:
+            flash("Invalid Credentials","danger")
+            return render_template("userlogin.html")
+
+
+    return render_template("userlogin.html")
 
 
 
