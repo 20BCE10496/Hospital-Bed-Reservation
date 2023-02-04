@@ -101,7 +101,7 @@
 
 from flask import Flask, json,redirect,render_template,flash,request
 # from flask.globals import request, session
-# from flask.helpers import url_for
+from flask.helpers import url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -174,8 +174,16 @@ def signup():
         dob=request.form.get('dob')
         # print(srfid,email,dob)
         encpassword=generate_password_hash(dob)
+        user=User.query.filter_by(srfid=srfid).first()
+        emailUser=User.query.filter_by(email=email).first()
+        if user or emailUser:
+            flash ("Email or srfid are already exist","warning")
+            return render_template("usersignup.html")
         new_user=db.engine.execute(f"INSERT INTO `user` (`srfid`,`email`,`dob`) VALUES ('{srfid}','{email}','{encpassword}') ")
-        return "USER added"
+        
+        
+        flash("SignUp success Please Login","success")
+        return render_template("userlogin.html")
 
     return render_template("usersignup.html")
 
@@ -197,6 +205,14 @@ def login():
 
 
     return render_template("userlogin.html")
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user
+    flash ("LogOut Successful","warning")
+    return redirect(url_for('login'))
+    
 
 # @app.route('/hospitallogin',methods=['POST','GET'])
 # def hospitallogin():
