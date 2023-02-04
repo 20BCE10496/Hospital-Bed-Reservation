@@ -57,7 +57,10 @@ def signup():
         srfid=request.form.get('srf')
         dob=request.form.get('dob')
         email=request.form.get('email')
-        print(srfid,dob,email)
+        # print(srfid,dob,email)
+        encpassword=generate_password_hash(dob)
+        new_user=db.engine.execute(f"INSERT INTO `user` (`srfid`,`email`,`dob`) VALUES ('{srfid}','{email}','{encpassword}') ")
+
         return render_template("/usersignup.html")
 
 
