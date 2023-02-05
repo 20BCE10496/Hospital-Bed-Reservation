@@ -146,33 +146,33 @@ def admin():
 
 
 
-# @app.route('/addHospitalUser',methods=['POST','GET'])
-# def hospitalUser():
+@app.route('/addHospitalUser',methods=['POST','GET'])
+def hospitalUser():
    
-#     if('user' in session and session['user']=="admin"):
+    if('user' in session and session['user']=="admin"):
       
-#         if request.method=="POST":
-#             hcode=request.form.get('hcode')
-#             email=request.form.get('email')
-#             password=request.form.get('password')        
-#             encpassword=generate_password_hash(password)  
-#             hcode=hcode.upper()      
-#             emailUser=Hospitaluser.query.filter_by(email=email).first()
-#             if  emailUser:
-#                 flash("Email or srif is already taken","warning")
+        if request.method=="POST":
+            hcode=request.form.get('hcode')
+            email=request.form.get('email')
+            password=request.form.get('password')        
+            encpassword=generate_password_hash(password)  
+            hcode=hcode.upper()      
+            emailUser=Hospitaluser.query.filter_by(email=email).first()
+            if  emailUser:
+                flash("Email or srif is already taken","warning")
          
-#             db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
+            db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
 
-#             # my mail starts from here if you not need to send mail comment the below line
+            # my mail starts from here if you not need to send mail comment the below line
            
-#             # mail.send_message('COVID CARE CENTER',sender=params['gmail-user'],recipients=[email],body=f"Welcome thanks for choosing us\nYour Login Credentials Are:\n Email Address: {email}\nPassword: {password}\n\nHospital Code {hcode}\n\n Do not share your password\n\n\nThank You..." )
+            # mail.send_message('COVID CARE CENTER',sender=params['gmail-user'],recipients=[email],body=f"Welcome thanks for choosing us\nYour Login Credentials Are:\n Email Address: {email}\nPassword: {password}\n\nHospital Code {hcode}\n\n Do not share your password\n\n\nThank You..." )
 
-#             flash("Data Sent and Inserted Successfully","warning")
-#             return render_template("addHosUser.html")
+            flash("Data Sent and Inserted Successfully","warning")
+            return render_template("addHosUser.html")
 
-#     else:
-#         flash("Login and try Again","warning")
-#         return render_template("addHosUser.html")
+    else:
+        flash("Login and try Again","warning")
+        return render_template("addHosUser.html")
     
 
 
