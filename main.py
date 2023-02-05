@@ -178,7 +178,7 @@ def hospitalUser():
             # hcode=hcode.upper()      
             emailUser=Hospitaluser.query.filter_by(email=email).first()
             if  emailUser:
-                flash("Email or srif is already taken","warning")
+                flash("Email is already taken","warning")
          
             db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
 
@@ -195,7 +195,7 @@ def hospitalUser():
             
             flash("Login and try Again","warning")
             return redirect("/admin")
-    # return render_template("addHosUser.html")    
+    return render_template("addHosUser.html")    
     
     
 @app.route("/logoutadmin")
