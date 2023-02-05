@@ -68,8 +68,17 @@
         
                   <li><a class="nav-link scrollto" href="#departments">Patients Details</a></li>
                   <li><a class="nav-link scrollto" href="#doctors">Available Beds</a></li>
-        
+{% if current_user.is_authenticated %}
 
+                  <li class="dropdown"><a href="/login"><span>Welcome {{current_user.email}}</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                      <li><a href="/logout">Logout</a></li>
+              
+                   
+                    </ul>
+                  </li>
+                  
+{% else %}
                   <li class="dropdown"><a href="/login"><span>Sign In</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                       <li><a href="/login">User Login</a></li>
@@ -78,6 +87,11 @@
                    
                     </ul>
                   </li>
+                  
+        
+{% endif %}        
+
+                  
         
                   <li><a class="nav-link scrollto" href="">Contact</a></li>
                 </ul>

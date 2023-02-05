@@ -104,7 +104,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user
+    logout_user()
     flash ("LogOut Successful","warning")
     return redirect(url_for('login'))
     
@@ -165,7 +165,7 @@ def hospitalUser():
 
             # my mail starts from here if you not need to send mail comment the below line
            
-            # mail.send_message('COVID CARE CENTER',sender=params['gmail-user'],recipients=[email],body=f"Welcome thanks for choosing us\nYour Login Credentials Are:\n Email Address: {email}\nPassword: {password}\n\nHospital Code {hcode}\n\n Do not share your password\n\n\nThank You..." )
+            mail.send_message('COVID CARE CENTER',sender=params['gmail-user'],recipients=[email],body=f"Welcome thanks for choosing us\nYour Login Credentials Are:\n Email Address: {email}\nPassword: {password}\n\nHospital Code {hcode}\n\n Do not share your password\n\n\nThank You..." )
 
             flash("Data Sent and Inserted Successfully","warning")
             return render_template("addHosUser.html")
