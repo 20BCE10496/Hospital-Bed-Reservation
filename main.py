@@ -1,5 +1,5 @@
 from flask import Flask, json,redirect,render_template,flash,request
-# from flask.globals import request, session
+from flask.globals import request, session
 from flask.helpers import url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
@@ -23,6 +23,9 @@ login_manager.login_view='login'
 # app.config['SQLALCHEMY_DATABASE_URI']='mysql://username:password@localhost/databsename'
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/covid'
 db=SQLAlchemy(app)
+
+with open('config.json','r') as c:
+    params=json.load(c)["params"]
 
 
 
@@ -65,6 +68,7 @@ def signup():
         dob=request.form.get('dob')
         # print(srfid,email,dob)
         encpassword=generate_password_hash(dob)
+        # if user already exist we are chaecking that.
         user=User.query.filter_by(srfid=srfid).first()
         emailUser=User.query.filter_by(email=email).first()
         if user or emailUser:
@@ -122,27 +126,23 @@ def logout():
 
 #     return render_template("hospitallogin.html")
 
-# @app.route('/admin',methods=['POST','GET'])
-# def admin():
+@app.route('/admin',methods=['POST','GET'])
+def admin():
  
-#     if request.method=="POST":
-#         username=request.form.get('username')
-#         password=request.form.get('password')
-#         if(username=="admin" and password=="admin"):
-#             session['user']=username
-#             flash("login success","info")
-#             return render_template("addHosUser.html")
-#         else:
-#             flash("Invalid Credentials","danger")
+    if request.method=="POST":
+        username=request.form.get('username')
+        password=request.form.get('password')
+        if(username==params['username'] and password==params['password']):
+            session['user']=username
+            
+            flash("login success","info")
+            return render_template("addHosUser.html")
+        else:
+            flash("Invalid Credentials","danger")
 
-#     return render_template("admin.html")
+    return render_template("admin.html")
 
-# @app.route('/logout')
-# @login_required
-# def logout():
-#     logout_user()
-#     flash("Logout SuccessFul","warning")
-#     return redirect(url_for('login'))
+
 
 
 

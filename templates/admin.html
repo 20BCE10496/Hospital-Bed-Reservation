@@ -1,0 +1,39 @@
+{% extends 'baselogin.html' %}
+{% block title %}
+Admin LogIn
+{% endblock title %}
+{% block form %}
+<h2>Admin LogIn</h2>
+
+<div class="row">
+    <div class="col-md-4"></div>
+
+    <div class="col-md-4">
+
+
+        <form action="/admin" method="post">
+        {% include 'msg.html' %}    
+
+            <div class="form-group">
+                <input type="text" class="form-control mt-2" placeholder="Enter UserName" name="username" required>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="password" class="form-control mt-2" placeholder="Enter Your password" name="password" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-info">LogIn</button>
+
+        </form>
+
+    </div>
+
+
+    <div class="col-md-4"></div>
+
+
+</div>
+
+{% endblock form %}
