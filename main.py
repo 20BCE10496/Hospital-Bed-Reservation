@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 from flask_login import login_required,logout_user,login_user,login_manager,LoginManager,current_user
 import json
+from flask_mail import Mail
 import pymysql
 pymysql.install_as_MySQLdb
 
@@ -26,6 +27,16 @@ db=SQLAlchemy(app)
 
 with open('config.json','r') as c:
     params=json.load(c)["params"]
+    
+
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT='465',
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME=params['gmail-user'],
+    MAIL_PASSWORD=params['gmail-password']
+)
+mail = Mail(app)    
 
 
 
@@ -169,21 +180,22 @@ def hospitalUser():
             if  emailUser:
                 flash("Email or srif is already taken","warning")
          
-            new_user=db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
-            flash("Data Inserted","success")
+            db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
 
 
             # my mail starts from here if you not need to send mail comment the below line
            
-            # mail.send_message('COVID CARE CENTER',sender=params['gmail-user'],recipients=[email],body=f"Welcome thanks for choosing us\nYour Login Credentials Are:\n Email Address: {email}\nPassword: {password}\n\nHospital Code {hcode}\n\n Do not share your password\n\n\nThank You..." )
+            mail.send_message('COVID CARE CENTER',sender=params['gmail-user'],recipients=[email],
+            body=f"Welcome thanks for choosing us\nYour Login Credentials Are:\n Email Address: {email}\nPassword: {password}\n\nHospital Code {hcode}\n\n Do not share your password\n\n\nThank You..." )
 
-            # flash("Data Sent and Inserted Successfully","warning")
-            # return render_template("addHosUser.html")
+            flash("Data Sent and Inserted Successfully","warning")
+            return render_template("addHosUser.html")
 
     else:
             
             flash("Login and try Again","warning")
             return redirect("/admin")
+    # return render_template("addHosUser.html")    
     
     
 @app.route("/logoutadmin")
