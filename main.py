@@ -159,19 +159,19 @@ def hospitalUser():
     if('user' in session and session['user']=="admin"):
       
         if request.method=="POST":
-            pass
-        return render_template("addHosUser.html")
-
-            # hcode=request.form.get('hcode')
-            # email=request.form.get('email')
-            # password=request.form.get('password')        
-            # encpassword=generate_password_hash(password)  
+            
+            hcode=request.form.get('hcode')
+            email=request.form.get('email')
+            password=request.form.get('password')        
+            encpassword=generate_password_hash(password)  
             # hcode=hcode.upper()      
-            # emailUser=hospitalUser.query.filter_by(email=email).first()
-            # if  emailUser:
-                # flash("Email or srif is already taken","warning")
+            emailUser=Hospitaluser.query.filter_by(email=email).first()
+            if  emailUser:
+                flash("Email or srif is already taken","warning")
          
-            # db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
+            new_user=db.engine.execute(f"INSERT INTO `hospitaluser` (`hcode`,`email`,`password`) VALUES ('{hcode}','{email}','{encpassword}') ")
+            flash("Data Inserted","success")
+
 
             # my mail starts from here if you not need to send mail comment the below line
            

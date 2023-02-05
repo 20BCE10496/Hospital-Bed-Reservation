@@ -2,7 +2,9 @@
     "params":
     {
         "user":"amisha",
-        "password":"amisha1234"
+        "password":"amisha1234",
+        "gmail-password":"Aman@1234",
+        "gmail-user":"amishagoyal2805@gmail.com"
        
     }
 }
