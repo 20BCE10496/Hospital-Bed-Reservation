@@ -60,7 +60,7 @@ class User(UserMixin,db.Model):
 class Hospitaluser(UserMixin,db.Model):
     id=db.Column(db.Integer,primary_key=True)
     hcode=db.Column(db.String(20))
-    email=db.Column(db.String(50))
+    email=db.Column(db.String(100))
     password=db.Column(db.String(1000))    
 
 
@@ -127,22 +127,26 @@ def logout():
     return redirect(url_for('login'))
     
 
-# @app.route('/hospitallogin',methods=['POST','GET'])
-# def hospitallogin():
-#     if request.method=="POST":
-#         email=request.form.get('email')
-#         password=request.form.get('password')
-#         user=Hospitaluser.query.filter_by(email=email).first()
-#         if user and check_password_hash(user.password,password):
-#             login_user(user)
-#             flash("Login Success","info")
-#             return render_template("index.html")
-#         else:
-#             flash("Invalid Credentials","danger")
-#             return render_template("hospitallogin.html")
+@app.route('/hospitallogin',methods=['POST','GET'])
+def hospitallogin():
+    
+    if request.method=="POST":
+        
+        email=request.form.get('email')
+        password=request.form.get('password')
+        user=Hospitaluser.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password,password):
+            login_user(user)
+            flash("Login Success","info")
+            return render_template("index.html")
+        else:
+            flash("Invalid Credentials","danger")
+            return render_template("hospitallogin.html")
 
 
-#     return render_template("hospitallogin.html")
+    return render_template("hospitallogin.html")
+
+
 
 @app.route('/admin',methods=['POST','GET'])
 def admin():
@@ -192,10 +196,8 @@ def hospitalUser():
             return render_template("addHosUser.html")
 
     else:
-            
-            flash("Login and try Again","warning")
-            return redirect("/admin")
-    return render_template("addHosUser.html")    
+        flash("Login and try Again","warning")
+        return render_template("addHosUser.html")    
     
     
 @app.route("/logoutadmin")
