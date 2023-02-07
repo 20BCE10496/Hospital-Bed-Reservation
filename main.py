@@ -219,6 +219,7 @@ def logoutadmin():
 
 @app.route("/addhospitalinfo",methods=['POST','GET'])
 def addhospitalinfo():
+    #huser=db.engine.execute("SELECT * FROM 'hospitaluser'")
     
     if request.method=="POST":
         
