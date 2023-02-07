@@ -62,6 +62,16 @@ class Hospitaluser(UserMixin,db.Model):
     hcode=db.Column(db.String(20))
     email=db.Column(db.String(100))
     password=db.Column(db.String(1000))    
+    
+   
+class Hospitaldata(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    hcode=db.Column(db.String(20),unique=True)
+    hname=db.Column(db.String(100))
+    normalbed=db.Column(db.Integer)
+    hicubed=db.Column(db.Integer)
+    icubed=db.Column(db.Integer)
+    vbed=db.Column(db.Integer) 
 
 
 @app.route("/")
@@ -206,6 +216,20 @@ def logoutadmin():
     flash("You are logout admin", "primary")
 
     return redirect('/admin')
+
+@app.route("/addhospitalinfo",methods=['POST','GET'])
+def addhospitalinfo():
+    
+    if request.method=="POST":
+        
+        hcode=request.form.get('hcode')
+        hname=request.form.get('hname')
+        nbed=request.form.get('normalbed')
+        hbed=request.form.get('hicubeds')
+        ibed=request.form.get('icubeds')
+        vbed=request.form.get('ventbeds')
+        
+    return render_template("hospitaldata.html")
 
 
 # testing wheather db is connected or not  
