@@ -189,7 +189,7 @@ def hospitalUser():
             email=request.form.get('email')
             password=request.form.get('password')        
             encpassword=generate_password_hash(password)  
-            # hcode=hcode.upper()      
+            hcode=hcode.upper()      
             emailUser=Hospitaluser.query.filter_by(email=email).first()
             if  emailUser:
                 flash("Email is already taken","warning")
@@ -228,6 +228,22 @@ def addhospitalinfo():
         hbed=request.form.get('hicubeds')
         ibed=request.form.get('icubeds')
         vbed=request.form.get('ventbeds')
+        hcode=hcode.upper()
+        huser=Hospitaluser.query.filter_by(hcode=hcode).first()
+        hduser=Hospitaldata.query.filter_by(hcode=hcode).first()
+        if hduser:
+            flash("Data is already Present you can update it..","primary")
+            return render_template("hospitaldata.html")
+        if huser:
+            db.engine.execute(f"INSERT INTO `hospitaldata` (`hcode`,`hname`,`normalbed`,`hicubed`,`icubed`,`vbed`) VALUES ('{hcode}','{hname}','{nbed}','{hbed}','{ibed}','{vbed}')")
+            flash("Data Is Added","primary")
+            return redirect('/addhospitalinfo')
+            
+
+        else:
+            flash("Hospital Code not Exist","warning")
+            return redirect('/addhospitalinfo')
+
         
     return render_template("hospitaldata.html")
 
