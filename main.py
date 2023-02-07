@@ -217,24 +217,25 @@ def logoutadmin():
 
     return redirect('/admin')
 
+
 @app.route("/addhospitalinfo",methods=['POST','GET'])
 def addhospitalinfo():
-    #huser=db.engine.execute("SELECT * FROM 'hospitaluser'")
-    
+    email=current_user.email
+    posts=Hospitaluser.query.filter_by(email=email).first()
+    code=posts.hcode
+    postsdata=Hospitaldata.query.filter_by(hcode=code).first()
     if request.method=="POST":
-        
-        hcode=request.form.get('hcode')
+        hcode=request.form.get('hcode') 
         hname=request.form.get('hname')
         nbed=request.form.get('normalbed')
         hbed=request.form.get('hicubeds')
         ibed=request.form.get('icubeds')
-        vbed=request.form.get('ventbeds')
         hcode=hcode.upper()
         huser=Hospitaluser.query.filter_by(hcode=hcode).first()
         hduser=Hospitaldata.query.filter_by(hcode=hcode).first()
         if hduser:
-            flash("Data is already Present you can update it..","primary")
-            return render_template("hospitaldata.html")
+           flash("Data is already Present you can update it..","primary")
+           return render_template("hospitaldata.html")
         if huser:
             db.engine.execute(f"INSERT INTO `hospitaldata` (`hcode`,`hname`,`normalbed`,`hicubed`,`icubed`,`vbed`) VALUES ('{hcode}','{hname}','{nbed}','{hbed}','{ibed}','{vbed}')")
             flash("Data Is Added","primary")
@@ -246,12 +247,15 @@ def addhospitalinfo():
             return redirect('/addhospitalinfo')
 
         
-    return render_template("hospitaldata.html")
+    return render_template("hospitaldata.html",postsdata=postsdata)
 
 
 # testing wheather db is connected or not  
+
 @app.route("/test")
 def test():
+    em=current_user.email
+    print(em)
     try:
         a=Test.query.all()
         print(a)
