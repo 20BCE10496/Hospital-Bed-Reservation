@@ -534,9 +534,19 @@ def hedit(id):
         ibed=request.form.get('icubeds')
         vbed=request.form.get('ventbeds')
         hcode=hcode.upper()
-        
+        db.engine.execute(f"UPDATE `hospitaldata` SET `hcode` ='{hcode}',`hname`='{hname}',`normalbed`='{nbed}',`hicubed`='{hbed}',`icubed`='{ibed}',`vbed`='{vbed}' WHERE `hospitaldata`.`id`={id}")
+
+        flash("Slot Updated","danger")
+        return redirect("/addhospitalinfo")
     posts=Hospitaldata.query.filter_by(id=id).first()
     return render_template("hedit.html",posts=posts)
+
+@app.route("/hdelete/<string:id>",methods=['POST','GET'])
+@login_required
+def hdelete(id):
+    db.engine.execute(f"DELETE FROM `hospitaldata` WHERE `hospitaldata`.`id`={id}")
+    flash("Date Deleted","danger")
+    return redirect("/addhospitalinfo")
 
 
 
