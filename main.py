@@ -220,6 +220,25 @@ def logoutadmin():
 
 @app.route("/addhospitalinfo",methods=['POST','GET'])
 def addhospitalinfo():
+    if request.method=="POST":
+        hcode=request.form.get('hcode')
+        hname=request.form.get('hname')
+        nbed=request.form.get('normalbed')
+        hbed=request.form.get('hicubeds')
+        ibed=request.form.get('icubeds')
+        vbed=request.form.get('ventbeds')
+        hcode=hcode.upper()
+        huser=Hospitaluser.query.filter_by(hcode=hcode).first()
+        hduser=Hospitaldata.query.filter_by(hcode=hcode).first()
+        if hduser:
+            flash("Data is already exist you can update it.","primary")
+            return render_template("hospitaldata.html")
+        if huser:
+            db.engine.execute(f"INSERT INTO `hospitaldata` (`hcode`,`hname`,`normalbed`,`hicubed`,`icubed`,`vbed`) VALUES ('{hcode}','{hname}','{nbed}','{hbed}','{ibed}','{vbed}')")
+            flash("Data is Added","primary")
+        else:
+            flash("Hospital code is not exist","warning")    
+
     return render_template("hospitaldata.html")
     
 
