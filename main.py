@@ -520,10 +520,23 @@ def addhospitalinfo():
             flash("Hospital Code not Exist","warning")
             return redirect('/addhospitalinfo')
 
-
-
-
     return render_template("hospitaldata.html",postsdata=postsdata)
+
+
+@app.route("/hedit/<string:id>",methods=['POST','GET'])
+@login_required
+def hedit(id):
+    if request.method=="POST":
+        hcode=request.form.get('hcode')
+        hname=request.form.get('hname')
+        nbed=request.form.get('normalbed')
+        hbed=request.form.get('hicubeds')
+        ibed=request.form.get('icubeds')
+        vbed=request.form.get('ventbeds')
+        hcode=hcode.upper()
+        
+    posts=Hospitaldata.query.filter_by(id=id).first()
+    return render_template("hedit.html",posts=posts)
 
 
 
