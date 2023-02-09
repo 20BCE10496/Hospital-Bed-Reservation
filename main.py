@@ -293,7 +293,8 @@ def hdelete(id):
 @app.route("/slotbooking",methods=['POST','GET'])
 @login_required
 def slotboking():
-    query=db.engine.execute(f"SELECT * FROM `Hospitaldata` ")
+    query1=db.engine.execute(f"SELECT * FROM `hospitaldata` ")
+    query=db.engine.execute(f"SELECT * FROM `hospitaldata` ")
     if request.method=="POST":
         srfid=request.form.get('srfid')
         bedtype=request.form.get('bedtype')
@@ -302,11 +303,69 @@ def slotboking():
         pname=request.form.get('pname')
         pphone=request.form.get('pphone')
         paddress=request.form.get('paddress')  
+        check2=Hospitaldata.query.filter_by(hcode=hcode).first()
+        # checkpatient=Bookingpatient.query.filter_by(srfid=srfid).first()
+        # if checkpatient:
+        #     flash("already srd id is registered ","warning")
+        #     return render_template("booking.html",query=query,query1=query1)
+        
+        if not check2:
+            flash("Hospital Code not exist","warning")
+            return render_template("booking.html",query=query,query1=query1)
+
         code=hcode
         dbb=db.engine.execute(f"SELECT * FROM `hospitaldata` WHERE `hospitaldata`.`hcode`='{code}' ")        
-       
+        bedtype=bedtype
+        if bedtype=="NormalBed":       
+            for d in dbb:
+                seat=d.normalbed
+                print(seat)
+                ar=Hospitaldata.query.filter_by(hcode=code).first()
+                ar.normalbed=seat-1
+                db.session.commit()
+        elif bedtype=="HICUBed":      
+            for d in dbb:
+                seat=d.hicubed
+                print(seat)
+                ar=Hospitaldata.query.filter_by(hcode=code).first()
+                ar.hicubed=seat-1
+                db.session.commit()
+
+        elif bedtype=="ICUBed":     
+            for d in dbb:
+                seat=d.icubed
+                print(seat)
+                ar=Hospitaldata.query.filter_by(hcode=code).first()
+                ar.icubed=seat-1
+                db.session.commit()
+
+        elif bedtype=="VENTILATORBed": 
+            for d in dbb:
+                seat=d.vbed
+                ar=Hospitaldata.query.filter_by(hcode=code).first()
+                ar.vbed=seat-1
+                db.session.commit()
+        else:
+            pass
+        
+        check=Hospitaldata.query.filter_by(hcode=hcode).first()
+        if check!=None:
+            if(seat>0 and check):
+                res=Bookingpatient(srfid=srfid,bedtype=bedtype,hcode=hcode,spo2=spo2,pname=pname,pphone=pphone,paddress=paddress)
+                db.session.add(res)
+                db.session.commit()
+                flash("Slot is Booked kindly Visit Hospital for Further Procedure","success")
+                # return render_template("booking.html",query=query,query1=query1)
+            else:
+                flash("Something Went Wrong","danger")
+                return render_template("booking.html",query=query,query1=query1)
+        else:
+            flash("Give the proper hospital Code","info")
+            return render_template("booking.html",query=query,query1=query1)
+            
     
     return render_template("slotbooking.html",query=query)
+        
     
 
 
