@@ -290,6 +290,18 @@ def hdelete(id):
     return redirect("/addhospitalinfo")
 
 
+
+@app.route("/pdetails",methods=['GET'])
+@login_required
+def pdetails():
+    code=current_user.srfid
+    print(code)
+    data=Bookingpatient.query.filter_by(srfid=code).first()
+    return render_template("details.html",data=data)
+
+
+
+
 @app.route("/slotbooking",methods=['POST','GET'])
 @login_required
 def slotboking():
