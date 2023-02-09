@@ -290,10 +290,23 @@ def hdelete(id):
     return redirect("/addhospitalinfo")
 
 
-@app.route("/slotbooking")
+@app.route("/slotbooking",methods=['POST','GET'])
 @login_required
 def slotboking():
-    return render_template("slotbooking.html")
+    query=db.engine.execute(f"SELECT * FROM `Hospitaldata` ")
+    if request.method=="POST":
+        srfid=request.form.get('srfid')
+        bedtype=request.form.get('bedtype')
+        hcode=request.form.get('hcode')
+        spo2=request.form.get('spo2')
+        pname=request.form.get('pname')
+        pphone=request.form.get('pphone')
+        paddress=request.form.get('paddress')  
+        code=hcode
+        dbb=db.engine.execute(f"SELECT * FROM `hospitaldata` WHERE `hospitaldata`.`hcode`='{code}' ")        
+       
+    
+    return render_template("slotbooking.html",query=query)
     
 
 
