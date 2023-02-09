@@ -290,6 +290,14 @@ def hdelete(id):
     return redirect("/addhospitalinfo")
 
 
+@app.route("/slotbooking")
+@login_required
+def slotboking():
+    return render_template("slotbooking.html")
+    
+
+
+
 
 
  
