@@ -355,7 +355,7 @@ def slotboking():
                 db.session.add(res)
                 db.session.commit()
                 flash("Slot is Booked kindly Visit Hospital for Further Procedure","success")
-                # return render_template("booking.html",query=query,query1=query1)
+                # return render_template("slotbooking.html",query=query,query1=query1)
             else:
                 flash("Something Went Wrong","danger")
                 return render_template("booking.html",query=query,query1=query1)
@@ -364,24 +364,8 @@ def slotboking():
             return render_template("booking.html",query=query,query1=query1)
             
     
-    return render_template("slotbooking.html",query=query)
+    return render_template("slotbooking.html",query=query,query1=query1)
         
-    
-
-
-
-
-
  
-
-
-
-
-
-
-
-
-
-
-
+ 
 app.run(debug=True)
