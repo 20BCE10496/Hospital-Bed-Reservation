@@ -3,8 +3,9 @@
     {
         "user":"amisha",
         "password":"amisha1234",
-        "gmail-password":"Aman@1234",
-        "gmail-user":"amishagoyal2805@gmail.com"
+        "gmail-user":"enter-gmail-id",
+        "gmail-password":"enter-gmail-id-password(original password of gmail)"
+       
        
     }
 }

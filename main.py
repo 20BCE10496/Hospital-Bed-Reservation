@@ -76,6 +76,18 @@ class Hospitaldata(db.Model):
     icubed=db.Column(db.Integer)
     vbed=db.Column(db.Integer)
     
+    
+class Trig(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    hcode=db.Column(db.String(20))
+    normalbed=db.Column(db.Integer)
+    hicubed=db.Column(db.Integer)
+    icubed=db.Column(db.Integer)
+    vbed=db.Column(db.Integer)
+    querys=db.Column(db.String(50))
+    date=db.Column(db.String(50))
+
+    
 class Bookingpatient(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     srfid=db.Column(db.String(20),unique=True)
@@ -97,7 +109,10 @@ def home():
    
     return render_template("index.html")
 
-
+@app.route("/trigers")
+def trigers():
+    query=Trig.query.all() 
+    return render_template("trigers.html",query=query)
 
 
 @app.route('/signup',methods=['POST','GET'])
@@ -380,4 +395,4 @@ def slotboking():
         
  
  
-app.run(debug=True)
+app.run(debug=True,host='0.0.0.0')
